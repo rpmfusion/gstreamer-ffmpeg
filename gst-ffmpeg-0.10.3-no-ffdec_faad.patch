@@ -1,0 +1,15 @@
+diff -up gst-ffmpeg-0.10.3/ext/ffmpeg/gstffmpegdec.c~ gst-ffmpeg-0.10.3/ext/ffmpeg/gstffmpegdec.c
+--- gst-ffmpeg-0.10.3/ext/ffmpeg/gstffmpegdec.c~	2008-04-10 22:10:45.000000000 +0200
++++ gst-ffmpeg-0.10.3/ext/ffmpeg/gstffmpegdec.c	2008-04-10 22:10:45.000000000 +0200
+@@ -2256,6 +2256,11 @@ gst_ffmpegdec_register (GstPlugin * plug
+       goto next;
+     }
+ 
++    /* These don't work very well, so skip them */
++    if (in_plugin->id == CODEC_ID_MPEG4AAC || in_plugin->id == CODEC_ID_AAC) {
++      goto next;
++    }
++
+     /* name */
+     if (!gst_ffmpeg_get_codecid_longname (in_plugin->id)) {
+       GST_INFO ("Add decoder %s (%d) please", in_plugin->name, in_plugin->id);
