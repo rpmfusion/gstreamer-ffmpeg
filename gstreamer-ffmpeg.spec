@@ -1,6 +1,6 @@
 Name:           gstreamer-ffmpeg
 Version:        0.10.3
-Release:        4%{?dist}
+Release:        6%{?dist}
 Summary:        GStreamer FFmpeg-based plug-ins
 Group:          Applications/Multimedia
 # the ffmpeg plugin is LGPL, the postproc plugin is GPL
@@ -9,6 +9,7 @@ URL:            http://gstreamer.freedesktop.org/
 Source:         http://gstreamer.freedesktop.org/src/gst-ffmpeg/gst-ffmpeg-%{version}.tar.bz2
 Patch0:         gst-ffmpeg-0.10.1-syslibs.patch
 Patch1:         gst-ffmpeg-0.10.3-no-ffdec_faad.patch
+Patch2:         gst-ffmpeg-0.10.3-vc1.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  gstreamer-devel >= 0.10.0
 BuildRequires:  gstreamer-plugins-base-devel >= 0.10.0
@@ -29,6 +30,7 @@ This package provides FFmpeg-based GStreamer plug-ins.
 %setup -q -n gst-ffmpeg-%{version}
 %patch0 -p1 -z .syslibs
 %patch1 -p1
+%patch2 -p1
 
 
 %build
@@ -57,6 +59,12 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Thu Jul 24 2008 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.3-6
+- Release bump for rpmfusion build
+
+* Thu May  8 2008 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.3-5
+- Fix playback of wvc1 videos (livna bug 1960)
+
 * Thu Apr 10 2008 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.3-4
 - Disable ffdec_faad as this has issues (use gstreamer-plugins-bad instead)
   (livna bug 1935)

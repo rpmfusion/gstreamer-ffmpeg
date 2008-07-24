@@ -1,0 +1,15 @@
+diff -up gst-ffmpeg-0.10.3/ext/ffmpeg/gstffmpegdec.c.vc1 gst-ffmpeg-0.10.3/ext/ffmpeg/gstffmpegdec.c
+--- gst-ffmpeg-0.10.3/ext/ffmpeg/gstffmpegdec.c.vc1	2008-05-08 08:35:55.000000000 +0200
++++ gst-ffmpeg-0.10.3/ext/ffmpeg/gstffmpegdec.c	2008-05-08 08:37:23.000000000 +0200
+@@ -584,6 +584,11 @@ gst_ffmpegdec_setcaps (GstPad * pad, Gst
+ 
+   GST_OBJECT_LOCK (ffmpegdec);
+ 
++  /* stupid check for VC1 */
++  if ((oclass->in_plugin->id == CODEC_ID_WMV3) ||
++      (oclass->in_plugin->id == CODEC_ID_VC1))
++    oclass->in_plugin->id = gst_ffmpeg_caps_to_codecid (caps, NULL);
++
+   /* close old session */
+   gst_ffmpegdec_close (ffmpegdec);
+ 
