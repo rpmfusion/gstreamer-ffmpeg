@@ -1,7 +1,7 @@
-diff -up gst-ffmpeg-0.10.3/ext/ffmpeg/gstffmpegdec.c~ gst-ffmpeg-0.10.3/ext/ffmpeg/gstffmpegdec.c
---- gst-ffmpeg-0.10.3/ext/ffmpeg/gstffmpegdec.c~	2008-04-10 22:10:45.000000000 +0200
-+++ gst-ffmpeg-0.10.3/ext/ffmpeg/gstffmpegdec.c	2008-04-10 22:10:45.000000000 +0200
-@@ -2256,6 +2256,11 @@ gst_ffmpegdec_register (GstPlugin * plug
+diff -up gst-ffmpeg-0.10.4/ext/ffmpeg/gstffmpegdec.c.foo gst-ffmpeg-0.10.4/ext/ffmpeg/gstffmpegdec.c
+--- gst-ffmpeg-0.10.4/ext/ffmpeg/gstffmpegdec.c.foo	2008-05-19 21:58:09.000000000 +0200
++++ gst-ffmpeg-0.10.4/ext/ffmpeg/gstffmpegdec.c	2008-07-23 16:44:06.000000000 +0200
+@@ -2461,6 +2461,11 @@ gst_ffmpegdec_register (GstPlugin * plug
        goto next;
      }
  
@@ -12,4 +12,4 @@ diff -up gst-ffmpeg-0.10.3/ext/ffmpeg/gstffmpegdec.c~ gst-ffmpeg-0.10.3/ext/ffmp
 +
      /* name */
      if (!gst_ffmpeg_get_codecid_longname (in_plugin->id)) {
-       GST_INFO ("Add decoder %s (%d) please", in_plugin->name, in_plugin->id);
+       GST_WARNING ("Add a longname mapping for decoder %s (%d) please",
