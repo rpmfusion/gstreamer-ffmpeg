@@ -31,6 +31,12 @@ This package provides FFmpeg-based GStreamer plug-ins.
 %patch0 -p1 -z .syslibs
 %patch1 -p1
 %patch2 -p1
+# adjust includes for the header move in latest ffmpeg <sigh>
+sed -i -e 's|avcodec.h|libavcodec/avcodec.h|g' \
+  -e 's|avformat.h|libavformat/avformat.h|g' \
+  -e 's|postprocess.h|libpostproc/postprocess.h|g' \
+  -e 's|swscale.h|libswscale/swscale.h|g' \
+  ext/ffmpeg/*.c ext/ffmpeg/*.h ext/libpostproc/*.c
 
 
 %build
