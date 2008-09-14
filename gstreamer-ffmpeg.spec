@@ -10,7 +10,7 @@ Source:         http://gstreamer.freedesktop.org/src/gst-ffmpeg/gst-ffmpeg-%{ver
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  gstreamer-devel >= 0.10.0
 BuildRequires:  gstreamer-plugins-base-devel >= 0.10.0
-BuildRequires:  ffmpeg-devel liboil-devel
+BuildRequires:  ffmpeg-devel liboil-devel bzip2-devel
 
 %description
 GStreamer is a streaming media framework, based on graphs of filters which
