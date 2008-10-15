@@ -1,20 +1,16 @@
 Name:           gstreamer-ffmpeg
-Version:        0.10.4
-Release:        2%{?dist}.1
+Version:        0.10.5
+Release:        1%{?dist}.1
 Summary:        GStreamer FFmpeg-based plug-ins
 Group:          Applications/Multimedia
 # the ffmpeg plugin is LGPL, the postproc plugin is GPL
 License:        GPLv2+ and LGPLv2+
 URL:            http://gstreamer.freedesktop.org/
 Source:         http://gstreamer.freedesktop.org/src/gst-ffmpeg/gst-ffmpeg-%{version}.tar.bz2
-# submitted upstream: http://bugzilla.gnome.org/show_bug.cgi?id=534392
-Patch1:         gst-ffmpeg-0.10.3-no-ffdec_faad.patch
-# submitted upstream: http://bugzilla.gnome.org/show_bug.cgi?id=534390
-Patch2:         gst-ffmpeg-0.10.4-av_picture_copy.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  gstreamer-devel >= 0.10.0
 BuildRequires:  gstreamer-plugins-base-devel >= 0.10.0
-BuildRequires:  ffmpeg-devel liboil-devel
+BuildRequires:  ffmpeg-devel liboil-devel bzip2-devel
 
 %description
 GStreamer is a streaming media framework, based on graphs of filters which
@@ -29,8 +25,6 @@ This package provides FFmpeg-based GStreamer plug-ins.
 
 %prep
 %setup -q -n gst-ffmpeg-%{version}
-%patch1 -p1
-%patch2 -p1
 # adjust includes for the header move in latest ffmpeg <sigh>
 sed -i -e 's|ffmpeg/avcodec.h|ffmpeg/libavcodec/avcodec.h|g' \
   -e 's|ffmpeg/avformat.h|ffmpeg/libavformat/avformat.h|g' \
@@ -65,8 +59,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
-* Sat Aug 16 2008 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.4-2.fc9.1
-- Fix build with new ffmpeg
+* Wed Oct 15 2008 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.5-1.fc9.1
+- New upstream release 0.10.5
+- Drop all patches, all upstreamed <yeah>
+- Put .1 behind disttag to be newer then freshrpms, yet older then F-10 version
 
 * Thu Jul 24 2008 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.4-2
 - Release bump for rpmfusion build
