@@ -1,5 +1,5 @@
 Name:           gstreamer-ffmpeg
-Version:        0.10.5
+Version:        0.10.6
 Release:        1%{?dist}
 Summary:        GStreamer FFmpeg-based plug-ins
 Group:          Applications/Multimedia
@@ -25,12 +25,6 @@ This package provides FFmpeg-based GStreamer plug-ins.
 
 %prep
 %setup -q -n gst-ffmpeg-%{version}
-# adjust includes for the header move in latest ffmpeg <sigh>
-sed -i -e 's|ffmpeg/avcodec.h|ffmpeg/libavcodec/avcodec.h|g' \
-  -e 's|ffmpeg/avformat.h|ffmpeg/libavformat/avformat.h|g' \
-  -e 's|postproc/postprocess.h|ffmpeg/libpostproc/postprocess.h|g' \
-  -e 's|ffmpeg/swscale.h|ffmpeg/libswscale/swscale.h|g' \
-  ext/ffmpeg/*.c ext/ffmpeg/*.h ext/libpostproc/*.c
 
 
 %build
@@ -55,10 +49,14 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root,-)
 %doc AUTHORS COPYING ChangeLog NEWS README TODO
 %{_libdir}/gstreamer-0.10/libgstffmpeg.so
+%{_libdir}/gstreamer-0.10/libgstffmpegscale.so
 %{_libdir}/gstreamer-0.10/libgstpostproc.so
 
 
 %changelog
+* Wed Dec 17 2008 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.6-1
+- New upstream release 0.10.6
+
 * Sun Sep 14 2008 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.5-1
 - New upstream release 0.10.5
 - Drop all patches, all upstreamed <yeah>
