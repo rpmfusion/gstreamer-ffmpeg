@@ -1,18 +1,16 @@
 Name:           gstreamer-ffmpeg
-Version:        0.10.3
-Release:        4%{?dist}
+Version:        0.10.5
+Release:        1%{?dist}
 Summary:        GStreamer FFmpeg-based plug-ins
 Group:          Applications/Multimedia
 # the ffmpeg plugin is LGPL, the postproc plugin is GPL
 License:        GPLv2+ and LGPLv2+
 URL:            http://gstreamer.freedesktop.org/
 Source:         http://gstreamer.freedesktop.org/src/gst-ffmpeg/gst-ffmpeg-%{version}.tar.bz2
-Patch0:         gst-ffmpeg-0.10.1-syslibs.patch
-Patch1:         gst-ffmpeg-0.10.3-no-ffdec_faad.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  gstreamer-devel >= 0.10.0
 BuildRequires:  gstreamer-plugins-base-devel >= 0.10.0
-BuildRequires:  ffmpeg-devel liboil-devel
+BuildRequires:  ffmpeg-devel liboil-devel bzip2-devel
 
 %description
 GStreamer is a streaming media framework, based on graphs of filters which
@@ -27,8 +25,12 @@ This package provides FFmpeg-based GStreamer plug-ins.
 
 %prep
 %setup -q -n gst-ffmpeg-%{version}
-%patch0 -p1 -z .syslibs
-%patch1 -p1
+# adjust includes for the header move in latest ffmpeg <sigh>
+sed -i -e 's|ffmpeg/avcodec.h|ffmpeg/libavcodec/avcodec.h|g' \
+  -e 's|ffmpeg/avformat.h|ffmpeg/libavformat/avformat.h|g' \
+  -e 's|postproc/postprocess.h|ffmpeg/libpostproc/postprocess.h|g' \
+  -e 's|ffmpeg/swscale.h|ffmpeg/libswscale/swscale.h|g' \
+  ext/ffmpeg/*.c ext/ffmpeg/*.h ext/libpostproc/*.c
 
 
 %build
@@ -57,6 +59,20 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Sep 14 2008 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.5-1
+- New upstream release 0.10.5
+- Drop all patches, all upstreamed <yeah>
+
+* Thu Jul 24 2008 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.4-2
+- Release bump for rpmfusion build
+
+* Thu May 22 2008 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.4-1
+- New upstream release 0.10.4
+- Drop several upstreamed patches
+
+* Thu May  8 2008 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.3-5
+- Fix playback of wvc1 videos (livna bug 1960)
+
 * Thu Apr 10 2008 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.3-4
 - Disable ffdec_faad as this has issues (use gstreamer-plugins-bad instead)
   (livna bug 1935)
