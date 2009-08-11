@@ -1,6 +1,6 @@
 Name:           gstreamer-ffmpeg
-Version:        0.10.7
-Release:        2%{?dist}
+Version:        0.10.8
+Release:        1%{?dist}
 Summary:        GStreamer FFmpeg-based plug-ins
 Group:          Applications/Multimedia
 # the ffmpeg plugin is LGPL, the postproc plugin is GPL
@@ -54,6 +54,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Tue Aug 11 2009 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.8-1
+- New upstream release 0.10.8
+
 * Wed Jun 17 2009 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.7-2
 - Rebuild for changes in the gstreamer provides script
 
