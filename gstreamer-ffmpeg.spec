@@ -1,5 +1,5 @@
 Name:           gstreamer-ffmpeg
-Version:        0.10.9
+Version:        0.10.10
 Release:        1%{?dist}
 Summary:        GStreamer FFmpeg-based plug-ins
 Group:          Applications/Multimedia
@@ -54,6 +54,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Mar 14 2010 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.10-1
+- New upstream release 0.10.10
+
 * Sat Nov  7 2009 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.9-1
 - New upstream release 0.10.9
 
