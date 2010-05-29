@@ -1,6 +1,6 @@
 Name:           gstreamer-ffmpeg
 Version:        0.10.10
-Release:        1%{?dist}
+Release:        1%{?dist}.1
 Summary:        GStreamer FFmpeg-based plug-ins
 Group:          Applications/Multimedia
 # the ffmpeg plugin is LGPL, the postproc plugin is GPL
@@ -54,6 +54,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat May 29 2010 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.10-1.fc12.1
+- Rebuild for ffmpeg -fPIC -mlongcall compile change on ppc (rfbz#1240)
+
 * Sun Mar 14 2010 Hans de Goede <j.w.r.degoede@hhs.nl> 0.10.10-1
 - New upstream release 0.10.10
 
