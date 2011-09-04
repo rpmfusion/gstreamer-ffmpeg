@@ -1,16 +1,17 @@
 Name:           gstreamer-ffmpeg
-Version:        0.10.11
-Release:        2%{?dist}
+Version:        0.10.12
+Release:        1%{?dist}
 Summary:        GStreamer FFmpeg-based plug-ins
 Group:          Applications/Multimedia
 # the ffmpeg plugin is LGPL, the postproc plugin is GPL
 License:        GPLv2+ and LGPLv2+
 URL:            http://gstreamer.freedesktop.org/
 Source:         http://gstreamer.freedesktop.org/src/gst-ffmpeg/gst-ffmpeg-%{version}.tar.bz2
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Patch0:         gst-ffmpeg-0.10.12-ChangeLog-UTF-8.patch
 BuildRequires:  gstreamer-devel >= 0.10.0
 BuildRequires:  gstreamer-plugins-base-devel >= 0.10.0
-BuildRequires:  ffmpeg-devel liboil-devel bzip2-devel
+BuildRequires:  ffmpeg-devel >= 0.8
+BuildRequires:  liboil-devel bzip2-devel
 
 %description
 GStreamer is a streaming media framework, based on graphs of filters which
@@ -25,6 +26,7 @@ This package provides FFmpeg-based GStreamer plug-ins.
 
 %prep
 %setup -q -n gst-ffmpeg-%{version}
+%patch0 -p1
 
 
 %build
@@ -36,13 +38,8 @@ make %{?_smp_mflags}
 
 
 %install
-rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 rm $RPM_BUILD_ROOT%{_libdir}/gstreamer-0.10/libgst*.la
-
-
-%clean
-rm -rf $RPM_BUILD_ROOT
 
 
 %files
@@ -54,6 +51,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Sep  4 2011 Hans de Goede <j.w.r.degoede@gmail.com> - 0.10.12-1
+- New upstream release 0.10.12
+- Rebuild for ffmpeg-0.8
+
 * Thu Apr 21 2011 Hans de Goede <j.w.r.degoede@gmail.com> - 0.10.11-2
 - Rebuild for proper package kit magic provides (rhbz#695730, rf#1707)
 
