@@ -1,5 +1,5 @@
 Name:           gstreamer-ffmpeg
-Version:        0.10.12
+Version:        0.10.13
 Release:        1%{?dist}
 Summary:        GStreamer FFmpeg-based plug-ins
 Group:          Applications/Multimedia
@@ -10,8 +10,8 @@ Source:         http://gstreamer.freedesktop.org/src/gst-ffmpeg/gst-ffmpeg-%{ver
 Patch0:         gst-ffmpeg-0.10.12-ChangeLog-UTF-8.patch
 BuildRequires:  gstreamer-devel >= 0.10.0
 BuildRequires:  gstreamer-plugins-base-devel >= 0.10.0
-BuildRequires:  ffmpeg-devel >= 0.8
-BuildRequires:  liboil-devel bzip2-devel
+BuildRequires:  ffmpeg-devel >= 0.8.8
+BuildRequires:  orc-devel bzip2-devel
 
 %description
 GStreamer is a streaming media framework, based on graphs of filters which
@@ -43,7 +43,6 @@ rm $RPM_BUILD_ROOT%{_libdir}/gstreamer-0.10/libgst*.la
 
 
 %files
-%defattr(-,root,root,-)
 %doc AUTHORS COPYING ChangeLog NEWS README TODO
 %{_libdir}/gstreamer-0.10/libgstffmpeg.so
 %{_libdir}/gstreamer-0.10/libgstffmpegscale.so
@@ -51,6 +50,9 @@ rm $RPM_BUILD_ROOT%{_libdir}/gstreamer-0.10/libgst*.la
 
 
 %changelog
+* Sun Jan 29 2012 Hans de Goede <j.w.r.degoede@gmail.com> - 0.10.13-1
+- New upstream release 0.10.13 (rf#2118, rf#2069)
+
 * Sun Sep  4 2011 Hans de Goede <j.w.r.degoede@gmail.com> - 0.10.12-1
 - New upstream release 0.10.12
 - Rebuild for ffmpeg-0.8
