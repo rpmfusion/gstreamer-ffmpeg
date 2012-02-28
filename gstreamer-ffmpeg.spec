@@ -1,6 +1,6 @@
 Name:           gstreamer-ffmpeg
 Version:        0.10.13
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        GStreamer FFmpeg-based plug-ins
 Group:          Applications/Multimedia
 # the ffmpeg plugin is LGPL, the postproc plugin is GPL
@@ -50,6 +50,9 @@ rm $RPM_BUILD_ROOT%{_libdir}/gstreamer-0.10/libgst*.la
 
 
 %changelog
+* Tue Feb 28 2012 Nicolas Chauvet <kwizart@gmail.com> - 0.10.13-2
+- Rebuilt for x264/FFmpeg
+
 * Sun Jan 29 2012 Hans de Goede <j.w.r.degoede@gmail.com> - 0.10.13-1
 - New upstream release 0.10.13 (rf#2118, rf#2069)
 
