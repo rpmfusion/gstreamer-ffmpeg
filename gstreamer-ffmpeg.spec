@@ -1,5 +1,5 @@
 Name:           gstreamer-ffmpeg
-Version:        0.10.13
+Version:        0.10.11
 Release:        2%{?dist}
 Summary:        GStreamer FFmpeg-based plug-ins
 Group:          Applications/Multimedia
@@ -10,7 +10,7 @@ Source:         http://gstreamer.freedesktop.org/src/gst-ffmpeg/gst-ffmpeg-%{ver
 Patch0:         gst-ffmpeg-0.10.12-ChangeLog-UTF-8.patch
 BuildRequires:  gstreamer-devel >= 0.10.0
 BuildRequires:  gstreamer-plugins-base-devel >= 0.10.0
-BuildRequires:  ffmpeg-devel >= 0.8.8
+BuildRequires:  ffmpeg-compat-devel >= 0.6.0
 BuildRequires:  orc-devel bzip2-devel
 
 %description
@@ -30,6 +30,7 @@ This package provides FFmpeg-based GStreamer plug-ins.
 
 
 %build
+export PKG_CONFIG_LIBDIR="%{_libdir}/ffmpeg-compat/pkgconfig"
 %configure --disable-dependency-tracking --disable-static \
   --with-package-name="gst-plugins-ffmpeg rpmfusion rpm" \
   --with-package-origin="http://rpmfusion.org/" \
@@ -50,18 +51,9 @@ rm $RPM_BUILD_ROOT%{_libdir}/gstreamer-0.10/libgst*.la
 
 
 %changelog
-* Tue Feb 28 2012 Nicolas Chauvet <kwizart@gmail.com> - 0.10.13-2
-- Rebuilt for x264/FFmpeg
-
-* Sun Jan 29 2012 Hans de Goede <j.w.r.degoede@gmail.com> - 0.10.13-1
-- New upstream release 0.10.13 (rf#2118, rf#2069)
-
-* Sun Sep  4 2011 Hans de Goede <j.w.r.degoede@gmail.com> - 0.10.12-1
-- New upstream release 0.10.12
-- Rebuild for ffmpeg-0.8
-
-* Thu Apr 21 2011 Hans de Goede <j.w.r.degoede@gmail.com> - 0.10.11-2
-- Rebuild for proper package kit magic provides (rhbz#695730, rf#1707)
+* Thu Jun 14 2012 Nicolas Chauvet <kwizart@gmail.com> - 0.10.11-2
+- Branch for EL-6
+- Switch to ffmpeg-compat
 
 * Sat Jul 17 2010 Hans de Goede <j.w.r.degoede@gmail.com> 0.10.11-1
 - New upstream release 0.10.11
