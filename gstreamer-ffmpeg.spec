@@ -25,7 +25,10 @@ Patch11:        0011-ffmux-Use-correct-enum-type-for-return-value.patch
 Patch12:        0012-ffdec-don-t-flush-buffers-on-DISCONT.patch
 BuildRequires:  gstreamer-devel >= 0.10.0
 BuildRequires:  gstreamer-plugins-base-devel >= 0.10.0
-BuildRequires:  orc-devel bzip2-devel
+BuildRequires:  orc-devel bzip2-devel zlib-devel
+%ifarch %{ix86} x86_64
+BuildRequires:  yasm
+%endif
 
 %description
 GStreamer is a streaming media framework, based on graphs of filters which
