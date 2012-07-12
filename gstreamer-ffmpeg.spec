@@ -1,16 +1,30 @@
 Name:           gstreamer-ffmpeg
 Version:        0.10.13
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        GStreamer FFmpeg-based plug-ins
 Group:          Applications/Multimedia
 # the ffmpeg plugin is LGPL, the postproc plugin is GPL
 License:        GPLv2+ and LGPLv2+
 URL:            http://gstreamer.freedesktop.org/
-Source:         http://gstreamer.freedesktop.org/src/gst-ffmpeg/gst-ffmpeg-%{version}.tar.bz2
+Source0:        http://gstreamer.freedesktop.org/src/gst-ffmpeg/gst-ffmpeg-%{version}.tar.bz2
+# We drop in a newer libav to get all the security bugfixes from there!
+Source1:        http://libav.org/releases/libav-0.8.3.tar.xz
 Patch0:         gst-ffmpeg-0.10.12-ChangeLog-UTF-8.patch
+# Patches cherry picked from upstream for newer libav and bugfixes
+Patch1:         0001-configure.ac-Fix-for-new-libav.patch
+Patch2:         0002-gstffmpegutils-Fix-include.patch
+Patch3:         0003-gstffmpegdec-Re-enable-MT-decoding-by-default.patch
+Patch4:         0004-ffmpeg-fix-pad-template-ref-leaks.patch
+Patch5:         0005-ffmpegdec-Report-latency-if-B-frames-are-present.patch
+Patch6:         0006-ffmpeg-Channel-layouts-are-now-set-for-DTS-and-E-AC3.patch
+Patch7:         0007-ffmpegdemux-fix-caps-leak.patch
+Patch8:         0008-ffdec-Only-set-get_buffer-function-for-video.patch
+Patch9:         0009-codecmap-Add-mapping-for-Indeo-4-video-codec.patch
+Patch10:        0010-ffmpegdec-Use-auto-threads-if-available-and-only-sli.patch
+Patch11:        0011-ffmux-Use-correct-enum-type-for-return-value.patch
+Patch12:        0012-ffdec-don-t-flush-buffers-on-DISCONT.patch
 BuildRequires:  gstreamer-devel >= 0.10.0
 BuildRequires:  gstreamer-plugins-base-devel >= 0.10.0
-BuildRequires:  ffmpeg-devel >= 0.8.8
 BuildRequires:  orc-devel bzip2-devel
 
 %description
@@ -25,15 +39,31 @@ This package provides FFmpeg-based GStreamer plug-ins.
 
 
 %prep
-%setup -q -n gst-ffmpeg-%{version}
+%setup -q -n gst-ffmpeg-%{version} -a 1
+rm -r gst-libs/ext/libav
+mv libav-0.8.3 gst-libs/ext/libav
 %patch0 -p1
+%patch1 -p1
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
+%patch5 -p1
+%patch6 -p1
+%patch7 -p1
+%patch8 -p1
+%patch9 -p1
+%patch10 -p1
+%patch11 -p1
+%patch12 -p1
 
 
 %build
+# Note no --with-system-ffmpeg *for now*, as gst-ffmpeg wants libav-0.8,
+# and the system ffmpeg is 0.11, which is more or less libav-0.9
 %configure --disable-dependency-tracking --disable-static \
   --with-package-name="gst-plugins-ffmpeg rpmfusion rpm" \
   --with-package-origin="http://rpmfusion.org/" \
-  --with-system-ffmpeg
+  --with-ffmpeg-extra-configure=--enable-runtime-cpudetect
 make %{?_smp_mflags}
 
 
@@ -50,6 +80,14 @@ rm $RPM_BUILD_ROOT%{_libdir}/gstreamer-0.10/libgst*.la
 
 
 %changelog
+* Thu Jul 12 2012 Hans de Goede <j.w.r.degoede@gmail.com> - 0.10.13-3
+- Switch to the build in libav for now, gst-ffmpeg wants libav-0.8,
+  and the system ffmpeg is 0.11, which is more or less the unreleased
+  libav-0.9. Once libav-0.9 gets officially released gst-ffmpeg will
+  hopefully switch to it
+- Upgrade the buildin libav to 0.8.3 to get all the security fixes from
+  upstream libav
+
 * Tue Feb 28 2012 Nicolas Chauvet <kwizart@gmail.com> - 0.10.13-2
 - Rebuilt for x264/FFmpeg
 
