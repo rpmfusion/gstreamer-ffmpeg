@@ -1,6 +1,6 @@
 Name:           gstreamer-ffmpeg
 Version:        0.10.13
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        GStreamer FFmpeg-based plug-ins
 Group:          Applications/Multimedia
 # the ffmpeg plugin is LGPL, the postproc plugin is GPL
@@ -8,7 +8,7 @@ License:        GPLv2+ and LGPLv2+
 URL:            http://gstreamer.freedesktop.org/
 Source0:        http://gstreamer.freedesktop.org/src/gst-ffmpeg/gst-ffmpeg-%{version}.tar.bz2
 # We drop in a newer libav to get all the security bugfixes from there!
-Source1:        http://libav.org/releases/libav-0.8.3.tar.xz
+Source1:        http://libav.org/releases/libav-0.8.4.tar.xz
 Patch0:         gst-ffmpeg-0.10.12-ChangeLog-UTF-8.patch
 # Patches cherry picked from upstream for newer libav and bugfixes
 Patch1:         0001-configure.ac-Fix-for-new-libav.patch
@@ -44,7 +44,7 @@ This package provides FFmpeg-based GStreamer plug-ins.
 %prep
 %setup -q -n gst-ffmpeg-%{version} -a 1
 rm -r gst-libs/ext/libav
-mv libav-0.8.3 gst-libs/ext/libav
+mv libav-0.8.4 gst-libs/ext/libav
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -66,12 +66,12 @@ mv libav-0.8.3 gst-libs/ext/libav
 %configure --disable-dependency-tracking --disable-static \
   --with-package-name="gst-plugins-ffmpeg rpmfusion rpm" \
   --with-package-origin="http://rpmfusion.org/" \
-  --with-ffmpeg-extra-configure=--enable-runtime-cpudetect
-make %{?_smp_mflags}
+  --with-ffmpeg-extra-configure="--enable-runtime-cpudetect --arch=%{_target_cpu} --optflags=\\\"\\\$RPM_OPT_FLAGS\\\""
+make %{?_smp_mflags} V=1
 
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+make install DESTDIR=$RPM_BUILD_ROOT V=1
 rm $RPM_BUILD_ROOT%{_libdir}/gstreamer-0.10/libgst*.la
 
 
@@ -83,6 +83,11 @@ rm $RPM_BUILD_ROOT%{_libdir}/gstreamer-0.10/libgst*.la
 
 
 %changelog
+* Sun Nov  4 2012 Hans de Goede <j.w.r.degoede@gmail.com> - 0.10.13-4
+- Upgrade the buildin libav to 0.8.4 to get all the security fixes from
+  upstream libav
+- Build included libav with the default RPM_OPT_FLAGS (rf#2560, rf#2472)
+
 * Thu Jul 12 2012 Hans de Goede <j.w.r.degoede@gmail.com> - 0.10.13-3
 - Switch to the build in libav for now, gst-ffmpeg wants libav-0.8,
   and the system ffmpeg is 0.11, which is more or less the unreleased
