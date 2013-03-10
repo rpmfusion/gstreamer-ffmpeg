@@ -1,6 +1,6 @@
 Name:           gstreamer-ffmpeg
 Version:        0.10.13
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        GStreamer FFmpeg-based plug-ins
 Group:          Applications/Multimedia
 # the ffmpeg plugin is LGPL, the postproc plugin is GPL
@@ -23,6 +23,8 @@ Patch9:         0009-codecmap-Add-mapping-for-Indeo-4-video-codec.patch
 Patch10:        0010-ffmpegdec-Use-auto-threads-if-available-and-only-sli.patch
 Patch11:        0011-ffmux-Use-correct-enum-type-for-return-value.patch
 Patch12:        0012-ffdec-don-t-flush-buffers-on-DISCONT.patch
+# Patch from libav bug 469 to fix compile with gcc-4.8
+Patch13:        libav-dsputil-fix-segfault-in-dsputil_init-with-gcc4.8.patch
 BuildRequires:  gstreamer-devel >= 0.10.0
 BuildRequires:  gstreamer-plugins-base-devel >= 0.10.0
 BuildRequires:  orc-devel bzip2-devel zlib-devel
@@ -43,8 +45,6 @@ This package provides FFmpeg-based GStreamer plug-ins.
 
 %prep
 %setup -q -n gst-ffmpeg-%{version} -a 1
-rm -r gst-libs/ext/libav
-mv libav-0.8.5 gst-libs/ext/libav
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -58,6 +58,11 @@ mv libav-0.8.5 gst-libs/ext/libav
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
+pushd libav-0.8.5
+%patch13 -p1
+popd
+rm -r gst-libs/ext/libav
+mv libav-0.8.5 gst-libs/ext/libav
 
 
 %build
@@ -83,6 +88,10 @@ rm $RPM_BUILD_ROOT%{_libdir}/gstreamer-0.10/libgst*.la
 
 
 %changelog
+* Sun Mar 10 2013 Hans de Goede <j.w.r.degoede@gmail.com> - 0.10.13-7
+- Add a patch from upstream libav to fix miscompilation with gcc-4.8
+  (rf#2713, libav#388)
+
 * Sat Mar  2 2013 Hans de Goede <j.w.r.degoede@gmail.com> - 0.10.13-6
 - Upgrade the buildin libav to 0.8.5 to get all the security fixes from
   upstream libav
