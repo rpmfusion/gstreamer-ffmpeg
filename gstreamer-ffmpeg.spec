@@ -1,6 +1,6 @@
 Name:           gstreamer-ffmpeg
 Version:        0.10.13
-Release:        6%{?dist}
+Release:        8%{?dist}
 Summary:        GStreamer FFmpeg-based plug-ins
 Group:          Applications/Multimedia
 # the ffmpeg plugin is LGPL, the postproc plugin is GPL
@@ -8,7 +8,7 @@ License:        GPLv2+ and LGPLv2+
 URL:            http://gstreamer.freedesktop.org/
 Source0:        http://gstreamer.freedesktop.org/src/gst-ffmpeg/gst-ffmpeg-%{version}.tar.bz2
 # We drop in a newer libav to get all the security bugfixes from there!
-Source1:        http://libav.org/releases/libav-0.8.5.tar.xz
+Source1:        http://libav.org/releases/libav-0.8.6.tar.xz
 Patch0:         gst-ffmpeg-0.10.12-ChangeLog-UTF-8.patch
 # Patches cherry picked from upstream for newer libav and bugfixes
 Patch1:         0001-configure.ac-Fix-for-new-libav.patch
@@ -43,8 +43,6 @@ This package provides FFmpeg-based GStreamer plug-ins.
 
 %prep
 %setup -q -n gst-ffmpeg-%{version} -a 1
-rm -r gst-libs/ext/libav
-mv libav-0.8.5 gst-libs/ext/libav
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -58,6 +56,8 @@ mv libav-0.8.5 gst-libs/ext/libav
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
+rm -r gst-libs/ext/libav
+mv libav-0.8.6 gst-libs/ext/libav
 
 
 %build
@@ -83,6 +83,14 @@ rm $RPM_BUILD_ROOT%{_libdir}/gstreamer-0.10/libgst*.la
 
 
 %changelog
+* Mon Mar 25 2013 Hans de Goede <j.w.r.degoede@gmail.com> - 0.10.13-8
+- Upgrade the buildin libav to 0.8.6 to get all the security fixes from
+  upstream libav
+
+* Sun Mar 10 2013 Hans de Goede <j.w.r.degoede@gmail.com> - 0.10.13-7
+- Add a patch from upstream libav to fix miscompilation with gcc-4.8
+  (rf#2713, libav#388)
+
 * Sat Mar  2 2013 Hans de Goede <j.w.r.degoede@gmail.com> - 0.10.13-6
 - Upgrade the buildin libav to 0.8.5 to get all the security fixes from
   upstream libav
