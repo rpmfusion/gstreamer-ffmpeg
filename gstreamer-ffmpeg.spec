@@ -1,6 +1,6 @@
 Name:           gstreamer-ffmpeg
 Version:        0.10.13
-Release:        15%{?dist}
+Release:        16%{?dist}
 Summary:        GStreamer FFmpeg-based plug-ins
 Group:          Applications/Multimedia
 # the ffmpeg plugin is LGPL, the postproc plugin is GPL
@@ -8,7 +8,7 @@ License:        GPLv2+ and LGPLv2+
 URL:            http://gstreamer.freedesktop.org/
 Source0:        http://gstreamer.freedesktop.org/src/gst-ffmpeg/gst-ffmpeg-%{version}.tar.bz2
 # We drop in a newer libav to get all the security bugfixes from there!
-Source1:        http://libav.org/releases/libav-0.8.17.tar.xz
+Source1:        http://libav.org/releases/libav-0.8.18.tar.xz
 Patch0:         gst-ffmpeg-0.10.12-ChangeLog-UTF-8.patch
 # Patches cherry picked from upstream for newer libav and bugfixes
 Patch1:         0001-configure.ac-Fix-for-new-libav.patch
@@ -57,7 +57,7 @@ This package provides FFmpeg-based GStreamer plug-ins.
 %patch11 -p1
 %patch12 -p1
 rm -r gst-libs/ext/libav
-mv libav-0.8.17 gst-libs/ext/libav
+mv libav-0.8.18 gst-libs/ext/libav
 
 
 %build
@@ -83,6 +83,9 @@ rm $RPM_BUILD_ROOT%{_libdir}/gstreamer-0.10/libgst*.la
 
 
 %changelog
+* Wed Nov 09 2016 Nicolas Chauvet <kwizart@gmail.com> - 0.10.13-16
+- Update libva to 0.8.18
+
 * Sat May 16 2015 Hans de Goede <j.w.r.degoede@gmail.com> - 0.10.13-15
 - Upgrade the buildin libav to 0.8.17 to get all the security fixes from
   upstream libav
