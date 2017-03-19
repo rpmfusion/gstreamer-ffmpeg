@@ -1,6 +1,6 @@
 Name:           gstreamer-ffmpeg
 Version:        0.10.13
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        GStreamer FFmpeg-based plug-ins
 Group:          Applications/Multimedia
 # the ffmpeg plugin is LGPL, the postproc plugin is GPL
@@ -83,6 +83,9 @@ rm $RPM_BUILD_ROOT%{_libdir}/gstreamer-0.10/libgst*.la
 
 
 %changelog
+* Sun Mar 19 2017 RPM Fusion Release Engineering <kwizart@rpmfusion.org> - 0.10.13-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
 * Wed Nov 09 2016 Nicolas Chauvet <kwizart@gmail.com> - 0.10.13-16
 - Update libva to 0.8.18
 
