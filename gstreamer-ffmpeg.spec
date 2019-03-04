@@ -29,6 +29,7 @@ BuildRequires:  orc-devel bzip2-devel zlib-devel
 %ifarch %{ix86} x86_64
 BuildRequires:  yasm
 %endif
+BuildRequires:  gcc
 
 %description
 GStreamer is a streaming media framework, based on graphs of filters which
