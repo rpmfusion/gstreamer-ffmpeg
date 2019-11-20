@@ -1,6 +1,8 @@
+%global libav_ver 0.8.21
+
 Name:           gstreamer-ffmpeg
 Version:        0.10.13
-Release:        22%{?dist}
+Release:        23%{?dist}
 Summary:        GStreamer FFmpeg-based plug-ins
 Group:          Applications/Multimedia
 # the ffmpeg plugin is LGPL, the postproc plugin is GPL
@@ -8,7 +10,7 @@ License:        GPLv2+ and LGPLv2+
 URL:            http://gstreamer.freedesktop.org/
 Source0:        http://gstreamer.freedesktop.org/src/gst-ffmpeg/gst-ffmpeg-%{version}.tar.bz2
 # We drop in a newer libav to get all the security bugfixes from there!
-Source1:        http://libav.org/releases/libav-0.8.18.tar.xz
+Source1:        http://libav.org/releases/libav-%{libav_ver}.tar.xz
 Patch0:         gst-ffmpeg-0.10.12-ChangeLog-UTF-8.patch
 # Patches cherry picked from upstream for newer libav and bugfixes
 Patch1:         0001-configure.ac-Fix-for-new-libav.patch
@@ -23,9 +25,11 @@ Patch9:         0009-codecmap-Add-mapping-for-Indeo-4-video-codec.patch
 Patch10:        0010-ffmpegdec-Use-auto-threads-if-available-and-only-sli.patch
 Patch11:        0011-ffmux-Use-correct-enum-type-for-return-value.patch
 Patch12:        0012-ffdec-don-t-flush-buffers-on-DISCONT.patch
+# fix build with orc >= 0.4.30
+Patch20:        gst-ffmpeg-0.10.13-orc-0.4.30.patch
 BuildRequires:  gstreamer-devel >= 0.10.0
 BuildRequires:  gstreamer-plugins-base-devel >= 0.10.0
-BuildRequires:  orc-devel bzip2-devel zlib-devel
+BuildRequires:  orc-devel >= 0.4.30 bzip2-devel zlib-devel
 %ifarch %{ix86} x86_64
 BuildRequires:  yasm
 %endif
@@ -57,8 +61,9 @@ This package provides FFmpeg-based GStreamer plug-ins.
 %patch10 -p1
 %patch11 -p1
 %patch12 -p1
+%patch20 -p1
 rm -r gst-libs/ext/libav
-mv libav-0.8.18 gst-libs/ext/libav
+mv libav-%{libav_ver} gst-libs/ext/libav
 
 
 %build
@@ -84,6 +89,10 @@ rm $RPM_BUILD_ROOT%{_libdir}/gstreamer-0.10/libgst*.la
 
 
 %changelog
+* Wed Nov 20 2019 Dominik Mierzejewski <rpm@greysector.net> - 0.10.13-23
+- update bundled libav to 0.8.21
+- fix build with orc >= 0.4.30
+
 * Fri Aug 09 2019 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 0.10.13-22
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
