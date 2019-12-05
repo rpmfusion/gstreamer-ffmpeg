@@ -2,9 +2,8 @@
 
 Name:           gstreamer-ffmpeg
 Version:        0.10.13
-Release:        23%{?dist}
+Release:        24%{?dist}
 Summary:        GStreamer FFmpeg-based plug-ins
-Group:          Applications/Multimedia
 # the ffmpeg plugin is LGPL, the postproc plugin is GPL
 License:        GPLv2+ and LGPLv2+
 URL:            http://gstreamer.freedesktop.org/
@@ -72,23 +71,27 @@ mv libav-%{libav_ver} gst-libs/ext/libav
 %configure --disable-dependency-tracking --disable-static \
   --with-package-name="gst-plugins-ffmpeg rpmfusion rpm" \
   --with-package-origin="http://rpmfusion.org/" \
-  --with-ffmpeg-extra-configure="--enable-runtime-cpudetect --arch=%{_target_cpu} --optflags=\\\"\\\$RPM_OPT_FLAGS\\\""
-make %{?_smp_mflags} V=1
+  --with-ffmpeg-extra-configure="--enable-runtime-cpudetect --arch=%{_target_cpu} --optflags=\\\"%{optflags}\\\""
+%{make_build} V=1
 
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT V=1
-rm $RPM_BUILD_ROOT%{_libdir}/gstreamer-0.10/libgst*.la
+%{make_install} V=1
+rm %{buildroot}%{_libdir}/gstreamer-0.10/libgst*.la
 
 
 %files
-%doc AUTHORS COPYING ChangeLog NEWS README TODO
+%doc AUTHORS ChangeLog NEWS README TODO
+%license COPYING
 %{_libdir}/gstreamer-0.10/libgstffmpeg.so
 %{_libdir}/gstreamer-0.10/libgstffmpegscale.so
 %{_libdir}/gstreamer-0.10/libgstpostproc.so
 
 
 %changelog
+* Wed Dec 04 2019 Dominik Mierzejewski <rpm@greysector.net> - 0.10.13-24
+- clean up spec, use modern macros
+
 * Wed Nov 20 2019 Dominik Mierzejewski <rpm@greysector.net> - 0.10.13-23
 - update bundled libav to 0.8.21
 - fix build with orc >= 0.4.30
