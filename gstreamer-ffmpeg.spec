@@ -1,5 +1,9 @@
 %global libav_ver 0.8.21
 
+%ifarch x86_64
+%global _lto_cflags %{nil}
+%endif
+
 Name:           gstreamer-ffmpeg
 Version:        0.10.13
 Release:        27%{?dist}
